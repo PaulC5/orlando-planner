@@ -60,7 +60,7 @@ const questions = [
       "Young kids (5-8)",
       "Tweens (9-12)",
       "Teenagers (13-17)",
-      "Adults only",
+      "Adults (18-64)",
       "Seniors (65+)",
     ],
   },
