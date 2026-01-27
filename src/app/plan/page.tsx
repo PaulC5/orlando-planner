@@ -10,7 +10,7 @@ const questions = [
     section: "Getting Started",
     question: "Is this your first time visiting Orlando?",
     type: "single",
-    options: ["Yes, first time!", "Been once or twice", "We're veterans"],
+    options: ["Yes, first time!", "Been once or twice", "Been many times"],
   },
   {
     id: "vibe",
@@ -288,16 +288,24 @@ export default function PlanPage() {
                   );
                 })}
               </div>
-              <button
-                onClick={handleNext}
-                disabled={
-                  !answers[currentQuestion.id] ||
-                  (answers[currentQuestion.id] as string[]).length === 0
-                }
-                className="mt-6 w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 text-white font-bold py-3 px-6 rounded-xl transition-all"
-              >
-                Continue
-              </button>
+              <div className="mt-6 flex gap-3">
+                <button
+                  onClick={handleNext}
+                  disabled={
+                    !answers[currentQuestion.id] ||
+                    (answers[currentQuestion.id] as string[]).length === 0
+                  }
+                  className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 text-white font-bold py-3 px-6 rounded-xl transition-all"
+                >
+                  Continue
+                </button>
+                <button
+                  onClick={handleNext}
+                  className="px-6 py-3 text-gray-500 hover:text-gray-700 font-medium"
+                >
+                  Skip
+                </button>
+              </div>
             </>
           )}
 
@@ -312,7 +320,7 @@ export default function PlanPage() {
                 className="w-full p-4 text-lg border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none"
               />
               <p className="text-gray-500 text-sm mt-2">
-                We&apos;ll send your personalized itinerary here. No spam, ever.
+                We&apos;ll email you a copy of your itinerary so you have it handy. No spam, ever.
               </p>
               <button
                 onClick={handleSubmit}
