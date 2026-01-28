@@ -43,7 +43,11 @@ Create a day-by-day itinerary with:
 5. Packing suggestions
 6. Final personalized tips
 
-Be specific, actionable, and encouraging. Use emojis sparingly for visual breaks.`;
+Be specific, actionable, and encouraging. Use emojis sparingly for visual breaks.
+
+## Important Notes:
+- Always end the itinerary with this disclaimer: "---\n\n*Prices and availability are approximate and subject to change. Always verify current rates when booking.*"
+- If key information is missing (like dates, group size, or parks), make reasonable assumptions and note them rather than asking questions.`;
 
 export async function POST(request: NextRequest) {
   try {
@@ -71,7 +75,7 @@ export async function POST(request: NextRequest) {
       },
       body: JSON.stringify({
         model: "claude-sonnet-4-20250514",
-        max_tokens: 4096,
+        max_tokens: 8192,
         system: SYSTEM_PROMPT,
         messages: [
           {
