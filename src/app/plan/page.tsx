@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 // Question data - Katie's voice
 const questions = [
@@ -380,6 +381,17 @@ export default function PlanPage() {
             </button>
           )}
         </nav>
+
+        {/* Minimal footer for question flow */}
+        <div className="mt-12 text-center text-white/50 text-xs">
+          <Link href="/privacy" className="hover:text-white/80 transition-colors mx-2">
+            Privacy
+          </Link>
+          •
+          <Link href="/terms" className="hover:text-white/80 transition-colors mx-2">
+            Terms
+          </Link>
+        </div>
       </div>
     </main>
   );

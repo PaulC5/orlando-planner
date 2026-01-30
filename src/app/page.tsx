@@ -126,10 +126,32 @@ export default function Home() {
         </section>
 
         {/* Footer disclaimer - kitschy + honest */}
-        <footer className="text-center mt-16 text-white/60 text-sm max-w-xl mx-auto">
-          <p>
-            Katie is powered by AI and trained on Orlando vacation data. 
-            She&apos;s not perfect, but she&apos;s pretty darn good. And free! <span role="img" aria-label="roller coaster">🎢</span>
+        <footer className="text-center mt-16 max-w-3xl mx-auto">
+          <div className="bg-white/10 backdrop-blur rounded-xl p-6 text-white/80 text-sm mb-6">
+            <p className="mb-2">
+              <strong>AI Disclaimer:</strong> Katie is powered by AI and trained on Orlando vacation data. 
+              Recommendations may not reflect real-time changes (park hours, closures, special events). 
+              Always verify critical details before your trip.
+            </p>
+            <p className="text-xs opacity-75">
+              We are not affiliated with Disney, Universal, or other theme parks mentioned.
+            </p>
+          </div>
+          
+          <div className="flex justify-center gap-6 text-white/60 text-sm">
+            <Link href="/privacy" className="hover:text-white transition-colors">
+              Privacy Policy
+            </Link>
+            <Link href="/terms" className="hover:text-white transition-colors">
+              Terms of Service
+            </Link>
+            <a href="mailto:hello@orlando-planner.com" className="hover:text-white transition-colors">
+              Contact
+            </a>
+          </div>
+          
+          <p className="text-white/40 text-xs mt-4">
+            © 2026 Katie Orlando Planner. Made with ❤️ for families.
           </p>
         </footer>
       </div>

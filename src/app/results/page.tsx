@@ -35,6 +35,23 @@ export default function ResultsPage() {
 
         const data = await response.json();
         setItinerary(data.itinerary);
+
+        // Send email with itinerary
+        if (parsedAnswers.email && data.itinerary) {
+          try {
+            await fetch("/api/send-itinerary", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                email: parsedAnswers.email,
+                itinerary: data.itinerary,
+              }),
+            });
+            // Silently succeed or fail - don't block user experience
+          } catch (emailError) {
+            console.log("Email delivery failed (non-critical):", emailError);
+          }
+        }
       } catch {
         setError("Something went wrong. Please try again.");
       } finally {
@@ -273,6 +290,35 @@ export default function ResultsPage() {
             View Recommended Rentals
           </button>
         </div>
+
+        {/* Footer with disclaimer */}
+        <footer className="mt-12 text-center max-w-3xl mx-auto pb-8">
+          <div className="bg-white rounded-xl p-6 shadow-md text-gray-600 text-sm mb-6">
+            <p className="mb-2">
+              <strong>AI Disclaimer:</strong> Katie&apos;s recommendations are AI-generated and may not reflect real-time changes. 
+              Always verify park hours, reservations, and critical details with official sources before your trip.
+            </p>
+            <p className="text-xs text-gray-500">
+              We are not affiliated with Disney, Universal, or other theme parks mentioned.
+            </p>
+          </div>
+          
+          <div className="flex justify-center gap-6 text-gray-500 text-sm">
+            <Link href="/privacy" className="hover:text-gray-700 transition-colors">
+              Privacy Policy
+            </Link>
+            <Link href="/terms" className="hover:text-gray-700 transition-colors">
+              Terms of Service
+            </Link>
+            <a href="mailto:hello@orlando-planner.com" className="hover:text-gray-700 transition-colors">
+              Contact
+            </a>
+          </div>
+          
+          <p className="text-gray-400 text-xs mt-4">
+            © 2026 Katie Orlando Planner
+          </p>
+        </footer>
       </div>
     </main>
   );
