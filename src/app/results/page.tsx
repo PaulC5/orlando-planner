@@ -47,7 +47,7 @@ export default function ResultsPage() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-blue-600 to-purple-700 flex items-center justify-center">
+      <main className="min-h-screen bg-gradient-to-b from-orange-400 via-pink-500 to-purple-600 flex items-center justify-center">
         <div className="text-center text-white">
           <div className="text-6xl mb-6 animate-bounce">🌴</div>
           <h2 className="text-2xl font-bold mb-2">Katie&apos;s Building Your Plan...</h2>
@@ -60,7 +60,7 @@ export default function ResultsPage() {
 
   if (error) {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-blue-600 to-purple-700 flex items-center justify-center">
+      <main className="min-h-screen bg-gradient-to-b from-orange-400 via-pink-500 to-purple-600 flex items-center justify-center">
         <div className="text-center text-white">
           <div className="text-6xl mb-6">😕</div>
           <h2 className="text-2xl font-bold mb-4">{error}</h2>
@@ -78,9 +78,15 @@ export default function ResultsPage() {
   return (
     <main className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-700 text-white py-12">
+      <div className="bg-gradient-to-r from-orange-400 via-pink-500 to-purple-600 text-white py-12">
         <div className="container mx-auto px-4 max-w-4xl">
-          <div className="text-5xl mb-3">✨</div>
+          <div className="flex items-center justify-center mb-4">
+            <img 
+              src="/katie-avatar.png" 
+              alt="Katie" 
+              className="w-20 h-20 rounded-full shadow-lg border-4 border-white"
+            />
+          </div>
           <h1 className="text-4xl font-bold mb-2">Your Custom Orlando Plan</h1>
           <p className="opacity-90">
             Built by Katie for{" "}
@@ -164,7 +170,7 @@ export default function ResultsPage() {
         </div>
 
         {/* CTA Section */}
-        <div className="mt-8 bg-gradient-to-r from-blue-600 to-purple-700 rounded-2xl p-8 text-white text-center">
+        <div className="mt-8 bg-gradient-to-r from-orange-400 via-pink-500 to-purple-600 rounded-2xl p-8 text-white text-center">
           <h3 className="text-2xl font-bold mb-4">Need a Place to Stay?</h3>
           <p className="opacity-90 mb-6 max-w-2xl mx-auto">
             We partner with local vacation rental hosts in Kissimmee — just 15 minutes from the parks, 

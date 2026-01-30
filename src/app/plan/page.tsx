@@ -201,7 +201,7 @@ export default function PlanPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-blue-600 to-purple-700 py-8">
+    <main className="min-h-screen bg-gradient-to-b from-orange-400 via-pink-500 to-purple-600 py-8">
       <div className="container mx-auto px-4 max-w-2xl">
         {/* Screen reader announcements */}
         <div role="status" aria-live="polite" className="sr-only">

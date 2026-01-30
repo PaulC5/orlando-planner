@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gradient-to-b from-blue-600 to-purple-700">
+    <main className="min-h-screen bg-gradient-to-b from-orange-400 via-pink-500 to-purple-600">
       {/* Skip to main content link for keyboard users */}
       <a 
         href="#main-content" 
@@ -14,7 +14,13 @@ export default function Home() {
       {/* Hero Section */}
       <div id="main-content" className="container mx-auto px-4 py-16">
         <div className="text-center text-white">
-          <div className="text-6xl mb-4" role="img" aria-label="Palm tree">🌴</div>
+          <div className="mb-6 flex justify-center">
+            <img 
+              src="/katie-avatar.png" 
+              alt="Katie, your Orlando AI Concierge" 
+              className="w-48 h-48 md:w-64 md:h-64 rounded-full shadow-2xl"
+            />
+          </div>
           <h1 className="text-5xl md:text-6xl font-bold mb-6">
             Hi! I&apos;m Katie,
             <br />
