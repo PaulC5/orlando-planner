@@ -120,7 +120,7 @@ export default function ResultsPage() {
         // Extract time if present
         const timeMatch = text.match(/^(\d{1,2}:\d{2}\s*(?:AM|PM)?)/i);
         const time = timeMatch ? timeMatch[1] : undefined;
-        const cleanText = time ? text.replace(timeMatch[0], "").trim() : text;
+        const cleanText = timeMatch && time ? text.replace(timeMatch[0], "").trim() : text;
         
         currentDay.activities.push({ icon, time, text: cleanText, type });
       }
