@@ -1,8 +1,6 @@
 import { Resend } from "resend";
 import { NextRequest, NextResponse } from "next/server";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export async function POST(request: NextRequest) {
   try {
     const { email, itinerary } = await request.json();
@@ -22,6 +20,9 @@ export async function POST(request: NextRequest) {
         { status: 200 }
       );
     }
+
+    // Initialize Resend client
+    const resend = new Resend(process.env.RESEND_API_KEY);
 
     // Format itinerary for email (basic HTML conversion)
     const htmlItinerary = formatItineraryHTML(itinerary);
