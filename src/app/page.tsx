@@ -11,18 +11,18 @@ export default function Home() {
         Skip to main content
       </a>
 
-      {/* Hero Section - Desktop with overlay, Mobile with content below */}
+      {/* Hero Section - Desktop with overlay, Mobile portrait hero */}
       <div id="main-content">
-        {/* Hero Image */}
-        <div className="relative overflow-hidden">
+        {/* Desktop Hero Image - hidden on mobile */}
+        <div className="hidden md:block relative overflow-hidden">
           <img 
             src="/katie-hero.png" 
             alt="Katie, your Orlando AI Concierge with Orlando theme parks in the background" 
             className="w-full h-auto max-h-[600px] object-cover object-center"
           />
           
-          {/* Desktop Overlay Content - hidden on mobile */}
-          <div className="hidden md:flex absolute inset-0 items-center justify-end px-12">
+          {/* Desktop Overlay Content */}
+          <div className="absolute inset-0 flex items-center justify-end px-12">
             <div className="max-w-xl text-white text-right bg-gradient-to-l from-black/50 to-transparent p-8 rounded-lg">
               <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 drop-shadow-lg">
                 Hi! I&apos;m Katie,
@@ -46,27 +46,38 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Mobile Content - only visible on mobile, below image */}
-        <div className="md:hidden container mx-auto px-4 py-8">
-          <div className="text-center text-white">
-            <h1 className="text-3xl font-bold mb-4">
-              Hi! I&apos;m Katie,
-              <br />
-              <span className="text-yellow-300">Your Orlando AI Concierge</span>
-            </h1>
-            <p className="text-lg mb-6 opacity-90">
-              I&apos;ve planned 500+ Orlando vacations for families just like yours. 
-              Let me build you a personalized itinerary—no stress, no endless Google tabs.
-            </p>
-            <Link
-              href="/plan"
-              className="inline-block bg-yellow-400 hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none focus:ring-4 focus:ring-yellow-500 text-gray-900 font-bold text-lg px-6 py-3 rounded-full transition-all shadow-lg"
-            >
-              Chat with Katie → It&apos;s Free
-            </Link>
-            <p className="mt-3 text-sm opacity-75">
-              Takes 5 minutes. No signup required.
-            </p>
+        {/* Mobile Hero Section - only visible on mobile */}
+        <div className="md:hidden">
+          {/* Mobile Portrait Hero Image */}
+          <div className="relative">
+            <img 
+              src="/katie-hero-mobile.png" 
+              alt="Katie, your Orlando AI Concierge" 
+              className="w-full h-auto"
+            />
+            
+            {/* Text overlay at bottom of mobile hero */}
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/50 to-transparent p-6 pb-8">
+              <div className="text-center text-white">
+                <h1 className="text-3xl font-bold mb-3 drop-shadow-lg">
+                  Hi! I&apos;m Katie,
+                  <br />
+                  <span className="text-yellow-300">Your Orlando AI Concierge</span>
+                </h1>
+                <p className="text-base mb-4 opacity-95 drop-shadow-md">
+                  I&apos;ve planned 500+ Orlando vacations. Let me build you a personalized itinerary.
+                </p>
+                <Link
+                  href="/plan"
+                  className="inline-block bg-yellow-400 hover:bg-yellow-300 active:bg-yellow-300 text-gray-900 font-bold text-lg px-6 py-3 rounded-full shadow-lg"
+                >
+                  Chat with Katie → It&apos;s Free
+                </Link>
+                <p className="mt-2 text-sm opacity-90 drop-shadow">
+                  Takes 5 minutes. No signup required.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
