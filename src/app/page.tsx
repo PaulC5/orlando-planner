@@ -129,7 +129,7 @@ export default function Home() {
         <footer className="text-center mt-16 text-white/60 text-sm max-w-xl mx-auto">
           <p>
             Katie is powered by AI and trained on Orlando vacation data. 
-            She&apos;s not perfect, but she&apos;s pretty damn good. And free! <span role="img" aria-label="roller coaster">🎢</span>
+            She&apos;s not perfect, but she&apos;s pretty darn good. And free! <span role="img" aria-label="roller coaster">🎢</span>
           </p>
         </footer>
       </div>
