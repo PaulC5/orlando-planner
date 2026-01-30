@@ -232,8 +232,23 @@ export default function PlanPage() {
           </div>
         </div>
 
-        {/* Question card */}
-        <div className="bg-white rounded-2xl shadow-xl p-8">
+        {/* Katie avatar and speech bubble */}
+        <div className="flex gap-4 items-start">
+          {/* Katie avatar */}
+          <img 
+            src="/katie-avatar.png" 
+            alt="Katie, your Orlando AI travel concierge" 
+            className="w-20 h-20 rounded-full shadow-lg flex-shrink-0"
+          />
+          
+          {/* Speech bubble - Question card */}
+          <div className="relative bg-white rounded-2xl shadow-xl p-8 flex-1">
+            {/* Speech bubble tail */}
+            <div className="absolute -left-3 top-6 w-0 h-0 
+              border-t-[15px] border-t-transparent
+              border-r-[20px] border-r-white
+              border-b-[15px] border-b-transparent"
+            ></div>
           <h2 id="question-heading" className="text-2xl font-bold text-gray-800 mb-6">
             {currentQuestion.question}
           </h2>
@@ -247,10 +262,10 @@ export default function PlanPage() {
                   onClick={() => handleSingleSelect(option)}
                   role="radio"
                   aria-checked={answers[currentQuestion.id] === option}
-                  className={`w-full text-left p-4 rounded-xl border-2 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                  className={`w-full text-left p-4 rounded-xl border-2 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 font-medium ${
                     answers[currentQuestion.id] === option
                       ? "border-blue-500 bg-blue-50"
-                      : "border-gray-200 hover:border-blue-300"
+                      : "border-gray-200 hover:border-blue-300 hover:bg-gray-50"
                   }`}
                 >
                   {option}
@@ -273,10 +288,10 @@ export default function PlanPage() {
                       onClick={() => handleMultiSelect(option)}
                       role="checkbox"
                       aria-checked={selected}
-                      className={`w-full text-left p-4 rounded-xl border-2 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                      className={`w-full text-left p-4 rounded-xl border-2 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 font-medium ${
                         selected
                           ? "border-blue-500 bg-blue-50"
-                          : "border-gray-200 hover:border-blue-300"
+                          : "border-gray-200 hover:border-blue-300 hover:bg-gray-50"
                       }`}
                     >
                       <span className="flex items-center">
@@ -359,6 +374,7 @@ export default function PlanPage() {
               </button>
             </>
           )}
+          </div>
         </div>
 
         {/* Navigation */}
