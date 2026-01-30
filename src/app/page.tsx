@@ -56,15 +56,15 @@ export default function Home() {
               className="w-full h-auto"
             />
             
-            {/* Text overlay at bottom of mobile hero */}
-            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/50 to-transparent p-6 pb-8">
+            {/* Text overlay at bottom of mobile hero - stronger background for readability */}
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/85 to-black/40 p-6 pb-8">
               <div className="text-center text-white">
-                <h1 className="text-3xl font-bold mb-3 drop-shadow-lg">
+                <h1 className="text-3xl font-bold mb-3 drop-shadow-2xl">
                   Hi! I&apos;m Katie,
                   <br />
                   <span className="text-yellow-300">Your Orlando AI Concierge</span>
                 </h1>
-                <p className="text-base mb-4 opacity-95 drop-shadow-md">
+                <p className="text-base mb-4 drop-shadow-xl">
                   I&apos;ve planned 500+ Orlando vacations. Let me build you a personalized itinerary.
                 </p>
                 <Link
@@ -73,7 +73,7 @@ export default function Home() {
                 >
                   Chat with Katie → It&apos;s Free
                 </Link>
-                <p className="mt-2 text-sm opacity-90 drop-shadow">
+                <p className="mt-2 text-sm drop-shadow-xl">
                   Takes 5 minutes. No signup required.
                 </p>
               </div>
