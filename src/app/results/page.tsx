@@ -49,10 +49,10 @@ export default function ResultsPage() {
     return (
       <main className="min-h-screen bg-gradient-to-b from-blue-600 to-purple-700 flex items-center justify-center">
         <div className="text-center text-white">
-          <div className="animate-spin rounded-full h-16 w-16 border-4 border-white border-t-transparent mx-auto mb-6"></div>
-          <h2 className="text-2xl font-bold mb-2">Creating Your Perfect Trip...</h2>
-          <p className="opacity-75">Our AI is crafting a personalized itinerary just for you.</p>
-          <p className="opacity-50 text-sm mt-4">This usually takes 15-30 seconds</p>
+          <div className="text-6xl mb-6 animate-bounce">🌴</div>
+          <h2 className="text-2xl font-bold mb-2">Katie&apos;s Building Your Plan...</h2>
+          <p className="opacity-75">Checking crowd calendars, optimizing park days, finding the good stuff...</p>
+          <p className="opacity-50 text-sm mt-4">Usually takes about 20 seconds ☕</p>
         </div>
       </main>
     );
@@ -80,10 +80,11 @@ export default function ResultsPage() {
       {/* Header */}
       <div className="bg-gradient-to-r from-blue-600 to-purple-700 text-white py-12">
         <div className="container mx-auto px-4 max-w-4xl">
-          <h1 className="text-4xl font-bold mb-2">Your Orlando Itinerary</h1>
+          <div className="text-5xl mb-3">✨</div>
+          <h1 className="text-4xl font-bold mb-2">Your Custom Orlando Plan</h1>
           <p className="opacity-90">
-            Personalized for{" "}
-            {answers?.email ? String(answers.email) : "your family"}
+            Built by Katie for{" "}
+            {answers?.email ? String(answers.email) : "your crew"} 🎢
           </p>
         </div>
       </div>

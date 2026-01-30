@@ -3,41 +3,41 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-// Question data
+// Question data - Katie's voice
 const questions = [
   {
     id: "experience",
     section: "Getting Started",
-    question: "Is this your first time visiting Orlando?",
+    question: "First things first—is this your first rodeo in Orlando?",
     type: "single",
-    options: ["Yes, first time!", "Been once or twice", "Been many times"],
+    options: ["Yes, total newbie!", "Been once or twice", "I practically live here"],
   },
   {
     id: "vibe",
     section: "Getting Started",
-    question: "What's the vibe of your trip?",
+    question: "What's the vibe? Are we going full chaos mode or keeping it chill?",
     type: "single",
     options: [
-      "Relaxed — no rushing, plenty of downtime",
-      "Balanced — active but with breaks",
-      "Go mode — pack in as much as possible",
+      "Relaxed — no rushing, plenty of pool time",
+      "Balanced — active but not insane",
+      "GO MODE — pack it all in, sleep when we're dead",
     ],
   },
   {
     id: "days",
     section: "Trip Basics",
-    question: "How many days will you be in Orlando?",
+    question: "How many days do I have to work with?",
     type: "single",
-    options: ["2-3 days", "4-5 days", "6-7 days", "8+ days"],
+    options: ["2-3 days (quick hit)", "4-5 days (sweet spot)", "6-7 days (living the dream)", "8+ days (okay, show-off 😄)"],
   },
   {
     id: "timing",
     section: "Trip Basics",
-    question: "When are you planning to visit?",
+    question: "When are you thinking of visiting?",
     type: "single",
     options: [
       "Spring (Mar-May)",
-      "Summer (Jun-Aug)",
+      "Summer (Jun-Aug) — it's HOT",
       "Fall (Sep-Nov)",
       "Winter (Dec-Feb)",
       "Not sure yet",
@@ -46,14 +46,14 @@ const questions = [
   {
     id: "groupSize",
     section: "Your Group",
-    question: "How many people are in your group?",
+    question: "How many people are in your crew?",
     type: "single",
-    options: ["2 people", "3-4 people", "5-6 people", "7+ people"],
+    options: ["2 people", "3-4 people", "5-6 people", "7+ people (wow!)"],
   },
   {
     id: "ages",
     section: "Your Group",
-    question: "Who's coming? (Select all that apply)",
+    question: "Who's coming on this adventure? (Pick all that apply)",
     type: "multi",
     options: [
       "Toddlers (0-4)",
@@ -67,29 +67,29 @@ const questions = [
   {
     id: "parks",
     section: "Theme Parks",
-    question: "Which parks do you want to visit?",
+    question: "Which parks are calling your name? (Pick all that sound good)",
     type: "multi",
     options: [
-      "Magic Kingdom",
-      "EPCOT",
-      "Hollywood Studios",
-      "Animal Kingdom",
-      "Universal Studios",
-      "Islands of Adventure",
+      "Magic Kingdom (the classic)",
+      "EPCOT (food! future! booze!)",
+      "Hollywood Studios (Star Wars, baby)",
+      "Animal Kingdom (animals + rides)",
+      "Universal Studios (Harry Potter, etc.)",
+      "Islands of Adventure (Jurassic, Marvel, more Potter)",
       "SeaWorld",
-      "LEGOLAND",
-      "Not sure — help me decide",
+      "LEGOLAND (if you've got little ones)",
+      "Not sure — help me decide, Katie!",
     ],
   },
   {
     id: "crowds",
     section: "Theme Parks",
-    question: "How important is avoiding crowds?",
+    question: "Real talk: how do you feel about crowds and lines?",
     type: "single",
     options: [
-      "Very — I'll pay extra to skip lines",
-      "Somewhat — open to strategies",
-      "Not really — we'll go with the flow",
+      "I hate them—I'll pay to skip lines",
+      "Meh, I'll deal if I have to",
+      "Crowds don't bother me, we vibe",
     ],
   },
   {
@@ -98,9 +98,9 @@ const questions = [
     question: "What's your dining style?",
     type: "multi",
     options: [
-      "Character dining (meals with characters)",
-      "Quick service / casual",
-      "Fine dining experiences",
+      "Character dining (meals with Mickey & friends)",
+      "Quick service / casual — easy and cheap",
+      "Fine dining — treat ourselves",
       "Budget-friendly",
       "Cook at our rental",
     ],
@@ -108,7 +108,7 @@ const questions = [
   {
     id: "accommodation",
     section: "Food & Stays",
-    question: "Where are you thinking of staying?",
+    question: "Where are you thinking of crashing at night?",
     type: "single",
     options: [
       "Disney Resort (on property)",
@@ -121,7 +121,7 @@ const questions = [
   {
     id: "budget",
     section: "Budget",
-    question: "What's your approximate budget for the whole trip?",
+    question: "What's your ballpark budget for the whole trip?",
     type: "single",
     options: [
       "Under $2,000",
@@ -133,8 +133,8 @@ const questions = [
   },
   {
     id: "email",
-    section: "Get Your Plan",
-    question: "Where should we send your itinerary?",
+    section: "Almost Done! 🎉",
+    question: "Cool! Where should I send your custom itinerary?",
     type: "email",
     options: [],
   },
@@ -320,14 +320,14 @@ export default function PlanPage() {
                 className="w-full p-4 text-lg border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none"
               />
               <p className="text-gray-500 text-sm mt-2">
-                We&apos;ll email you a copy of your itinerary so you have it handy. No spam, ever.
+                I&apos;ll email it to you in about 2 minutes. No spam, no BS. Just your plan.
               </p>
               <button
                 onClick={handleSubmit}
                 disabled={!email || isSubmitting}
                 className="mt-6 w-full bg-yellow-400 hover:bg-yellow-500 disabled:bg-gray-300 text-gray-900 font-bold py-4 px-6 rounded-xl transition-all text-lg"
               >
-                {isSubmitting ? "Creating your plan..." : "Get My Free Itinerary →"}
+                {isSubmitting ? "Katie's building your plan..." : "Build My Plan, Katie! ✨"}
               </button>
             </>
           )}
