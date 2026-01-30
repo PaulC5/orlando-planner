@@ -11,36 +11,67 @@ export default function Home() {
         Skip to main content
       </a>
 
-      {/* Hero Section */}
-      <div id="main-content" className="container mx-auto px-4 py-16">
-        <div className="text-center text-white">
-          <div className="mb-6 flex justify-center">
-            <img 
-              src="/katie-avatar.png" 
-              alt="Katie, your Orlando AI Concierge" 
-              className="w-48 h-48 md:w-64 md:h-64 rounded-full shadow-2xl"
-            />
+      {/* Hero Section with Background Image */}
+      <div id="main-content" className="relative overflow-hidden">
+        {/* Hero Image */}
+        <div className="w-full">
+          <img 
+            src="/katie-hero.png" 
+            alt="Katie, your Orlando AI Concierge with Orlando theme parks in the background" 
+            className="w-full h-auto max-h-[600px] object-cover object-center"
+          />
+        </div>
+        
+        {/* Overlay Content - positioned on right side */}
+        <div className="absolute inset-0 flex items-center justify-end px-4 md:px-12">
+          <div className="max-w-xl text-white text-right bg-gradient-to-l from-black/40 to-transparent p-8 rounded-lg">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 drop-shadow-lg">
+              Hi! I&apos;m Katie,
+              <br />
+              <span className="text-yellow-300">Your Orlando AI Concierge</span>
+            </h1>
+            <p className="text-lg md:text-xl mb-6 opacity-95 drop-shadow-md">
+              I&apos;ve planned 500+ Orlando vacations for families just like yours. 
+              Let me build you a personalized itinerary—no stress, no endless Google tabs.
+            </p>
+            <Link
+              href="/plan"
+              className="inline-block bg-yellow-400 hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none focus:ring-4 focus:ring-yellow-500 text-gray-900 font-bold text-xl px-8 py-4 rounded-full transition-all transform hover:scale-105 focus:scale-105 shadow-lg"
+            >
+              Chat with Katie → It&apos;s Free
+            </Link>
+            <p className="mt-3 text-sm opacity-90 drop-shadow">
+              Takes 5 minutes. No signup required.
+            </p>
           </div>
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">
+        </div>
+      </div>
+
+      {/* Mobile-friendly content below hero on small screens */}
+      <div className="container mx-auto px-4 py-8 md:hidden">
+        <div className="text-center text-white">
+          <h1 className="text-3xl font-bold mb-4">
             Hi! I&apos;m Katie,
             <br />
             <span className="text-yellow-300">Your Orlando AI Concierge</span>
           </h1>
-          <p className="text-xl md:text-2xl mb-8 max-w-2xl mx-auto opacity-90">
+          <p className="text-lg mb-6 opacity-90">
             I&apos;ve planned 500+ Orlando vacations for families just like yours. 
-            Tell me what you&apos;re looking for and I&apos;ll build you a personalized 
-            itinerary—no stress, no endless Google tabs, just a plan that actually works.
+            Let me build you a personalized itinerary—no stress, no endless Google tabs.
           </p>
           <Link
             href="/plan"
-            className="inline-block bg-yellow-400 hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none focus:ring-4 focus:ring-yellow-500 text-gray-900 font-bold text-xl px-8 py-4 rounded-full transition-all transform hover:scale-105 focus:scale-105 shadow-lg"
+            className="inline-block bg-yellow-400 hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none focus:ring-4 focus:ring-yellow-500 text-gray-900 font-bold text-lg px-6 py-3 rounded-full transition-all shadow-lg"
           >
             Chat with Katie → It&apos;s Free
           </Link>
-          <p className="mt-4 text-sm opacity-75">
-            Takes 5 minutes. No signup. Just you, me, and a great vacation plan.
+          <p className="mt-3 text-sm opacity-75">
+            Takes 5 minutes. No signup required.
           </p>
         </div>
+      </div>
+
+      <div className="container mx-auto px-4 pb-16">
 
         {/* Features */}
         <section aria-labelledby="features-heading">
