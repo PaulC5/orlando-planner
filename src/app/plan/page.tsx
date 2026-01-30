@@ -203,13 +203,27 @@ export default function PlanPage() {
   return (
     <main className="min-h-screen bg-gradient-to-b from-blue-600 to-purple-700 py-8">
       <div className="container mx-auto px-4 max-w-2xl">
+        {/* Screen reader announcements */}
+        <div role="status" aria-live="polite" className="sr-only">
+          Question {currentStep + 1} of {questions.length}: {currentQuestion.question}
+        </div>
+
         {/* Progress bar */}
         <div className="mb-8">
           <div className="flex justify-between text-white text-sm mb-2">
             <span>{currentQuestion.section}</span>
-            <span>{currentStep + 1} of {questions.length}</span>
+            <span aria-label={`Question ${currentStep + 1} of ${questions.length}`}>
+              {currentStep + 1} of {questions.length}
+            </span>
           </div>
-          <div className="h-2 bg-white/20 rounded-full overflow-hidden">
+          <div 
+            className="h-2 bg-white/20 rounded-full overflow-hidden" 
+            role="progressbar" 
+            aria-valuenow={currentStep + 1} 
+            aria-valuemin={1} 
+            aria-valuemax={questions.length}
+            aria-label="Question progress"
+          >
             <div
               className="h-full bg-yellow-400 transition-all duration-300"
               style={{ width: `${progress}%` }}
@@ -219,18 +233,20 @@ export default function PlanPage() {
 
         {/* Question card */}
         <div className="bg-white rounded-2xl shadow-xl p-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">
+          <h2 id="question-heading" className="text-2xl font-bold text-gray-800 mb-6">
             {currentQuestion.question}
           </h2>
 
           {/* Single select options */}
           {currentQuestion.type === "single" && (
-            <div className="space-y-3">
+            <div className="space-y-3" role="radiogroup" aria-labelledby="question-heading">
               {currentQuestion.options.map((option) => (
                 <button
                   key={option}
                   onClick={() => handleSingleSelect(option)}
-                  className={`w-full text-left p-4 rounded-xl border-2 transition-all ${
+                  role="radio"
+                  aria-checked={answers[currentQuestion.id] === option}
+                  className={`w-full text-left p-4 rounded-xl border-2 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                     answers[currentQuestion.id] === option
                       ? "border-blue-500 bg-blue-50"
                       : "border-gray-200 hover:border-blue-300"
@@ -245,7 +261,7 @@ export default function PlanPage() {
           {/* Multi select options */}
           {currentQuestion.type === "multi" && (
             <>
-              <div className="space-y-3">
+              <div className="space-y-3" role="group" aria-labelledby="question-heading">
                 {currentQuestion.options.map((option) => {
                   const selected = (
                     (answers[currentQuestion.id] as string[]) || []
@@ -254,7 +270,9 @@ export default function PlanPage() {
                     <button
                       key={option}
                       onClick={() => handleMultiSelect(option)}
-                      className={`w-full text-left p-4 rounded-xl border-2 transition-all ${
+                      role="checkbox"
+                      aria-checked={selected}
+                      className={`w-full text-left p-4 rounded-xl border-2 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                         selected
                           ? "border-blue-500 bg-blue-50"
                           : "border-gray-200 hover:border-blue-300"
@@ -267,6 +285,7 @@ export default function PlanPage() {
                               ? "bg-blue-500 border-blue-500"
                               : "border-gray-300"
                           }`}
+                          aria-hidden="true"
                         >
                           {selected && (
                             <svg
@@ -295,13 +314,14 @@ export default function PlanPage() {
                     !answers[currentQuestion.id] ||
                     (answers[currentQuestion.id] as string[]).length === 0
                   }
-                  className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 text-white font-bold py-3 px-6 rounded-xl transition-all"
+                  className="flex-1 bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 focus:ring-4 focus:ring-blue-500 disabled:bg-gray-300 text-white font-bold py-3 px-6 rounded-xl transition-all focus:outline-none"
                 >
                   Continue
                 </button>
                 <button
                   onClick={handleNext}
-                  className="px-6 py-3 text-gray-500 hover:text-gray-700 font-medium"
+                  className="px-6 py-3 text-gray-500 hover:text-gray-700 focus:text-gray-700 focus:underline font-medium focus:outline-none"
+                  aria-label="Skip this question"
                 >
                   Skip
                 </button>
@@ -312,20 +332,27 @@ export default function PlanPage() {
           {/* Email input */}
           {currentQuestion.type === "email" && (
             <>
+              <label htmlFor="email-input" className="sr-only">
+                Email address
+              </label>
               <input
+                id="email-input"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your@email.com"
-                className="w-full p-4 text-lg border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none"
+                aria-required="true"
+                aria-describedby="email-description"
+                className="w-full p-4 text-lg border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
               />
-              <p className="text-gray-500 text-sm mt-2">
+              <p id="email-description" className="text-gray-500 text-sm mt-2">
                 I&apos;ll email it to you in about 2 minutes. No spam, no BS. Just your plan.
               </p>
               <button
                 onClick={handleSubmit}
                 disabled={!email || isSubmitting}
-                className="mt-6 w-full bg-yellow-400 hover:bg-yellow-500 disabled:bg-gray-300 text-gray-900 font-bold py-4 px-6 rounded-xl transition-all text-lg"
+                aria-busy={isSubmitting}
+                className="mt-6 w-full bg-yellow-400 hover:bg-yellow-500 focus:bg-yellow-500 focus:ring-4 focus:ring-yellow-600 disabled:bg-gray-300 text-gray-900 font-bold py-4 px-6 rounded-xl transition-all text-lg focus:outline-none"
               >
                 {isSubmitting ? "Katie's building your plan..." : "Build My Plan, Katie! ✨"}
               </button>
@@ -334,23 +361,25 @@ export default function PlanPage() {
         </div>
 
         {/* Navigation */}
-        <div className="mt-6 flex justify-between">
+        <nav className="mt-6 flex justify-between" aria-label="Question navigation">
           <button
             onClick={handleBack}
             disabled={currentStep === 0}
-            className="text-white opacity-75 hover:opacity-100 disabled:opacity-30"
+            className="text-white opacity-75 hover:opacity-100 focus:opacity-100 focus:underline disabled:opacity-30 focus:outline-none"
+            aria-label="Go back to previous question"
           >
             ← Back
           </button>
           {currentQuestion.type === "single" && answers[currentQuestion.id] && (
             <button
               onClick={handleNext}
-              className="text-white opacity-75 hover:opacity-100"
+              className="text-white opacity-75 hover:opacity-100 focus:opacity-100 focus:underline focus:outline-none"
+              aria-label="Skip to next question"
             >
               Skip →
             </button>
           )}
-        </div>
+        </nav>
       </div>
     </main>
   );
