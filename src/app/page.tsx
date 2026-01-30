@@ -17,7 +17,7 @@ export default function Home() {
         <div className="hidden md:block relative overflow-hidden">
           <img 
             src="/katie-hero.png" 
-            alt="Katie, your Orlando AI Concierge with Orlando theme parks in the background" 
+            alt="Katie, your Orlando AI Travel Concierge with Orlando theme parks in the background" 
             className="w-full h-auto max-h-[600px] object-cover object-center"
           />
           
@@ -27,7 +27,7 @@ export default function Home() {
               <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 drop-shadow-lg">
                 Hi! I&apos;m Katie,
                 <br />
-                <span className="text-yellow-300">Your Orlando AI Concierge</span>
+                <span className="text-yellow-300">Your Orlando AI Travel Concierge</span>
               </h1>
               <p className="text-lg lg:text-xl mb-6 opacity-95 drop-shadow-md">
                 I&apos;ve planned 500+ Orlando vacations for families just like yours. 
@@ -52,7 +52,7 @@ export default function Home() {
           <div className="relative">
             <img 
               src="/katie-hero-mobile.png" 
-              alt="Katie, your Orlando AI Concierge" 
+              alt="Katie, your Orlando AI Travel Concierge" 
               className="w-full h-auto"
             />
             
@@ -62,7 +62,7 @@ export default function Home() {
                 <h1 className="text-3xl font-bold mb-3 drop-shadow-2xl">
                   Hi! I&apos;m Katie,
                   <br />
-                  <span className="text-yellow-300">Your Orlando AI Concierge</span>
+                  <span className="text-yellow-300">Your Orlando AI Travel Concierge</span>
                 </h1>
                 <p className="text-base mb-4 drop-shadow-xl">
                   I&apos;ve planned 500+ Orlando vacations. Let me build you a personalized itinerary.
