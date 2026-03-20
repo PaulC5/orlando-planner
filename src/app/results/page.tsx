@@ -2,12 +2,20 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { recordGeneration, recordRefinement, canRefine, isPaidUser } from "@/lib/usage";
 
 export default function ResultsPage() {
   const [itinerary, setItinerary] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [answers, setAnswers] = useState<Record<string, unknown> | null>(null);
+  const [email, setEmail] = useState("");
+  const [emailSent, setEmailSent] = useState(false);
+  const [emailSending, setEmailSending] = useState(false);
+  const [refineMessage, setRefineMessage] = useState("");
+  const [refining, setRefining] = useState(false);
+  const [showUpgrade, setShowUpgrade] = useState(false);
+  const [paid, setPaid] = useState(false);
 
   useEffect(() => {
     const generateItinerary = async () => {
@@ -35,23 +43,8 @@ export default function ResultsPage() {
 
         const data = await response.json();
         setItinerary(data.itinerary);
-
-        // Send email with itinerary
-        if (parsedAnswers.email && data.itinerary) {
-          try {
-            await fetch("/api/send-itinerary", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                email: parsedAnswers.email,
-                itinerary: data.itinerary,
-              }),
-            });
-            // Silently succeed or fail - don't block user experience
-          } catch (emailError) {
-            console.log("Email delivery failed (non-critical):", emailError);
-          }
-        }
+        recordGeneration();
+        setPaid(isPaidUser());
       } catch {
         setError("Something went wrong. Please try again.");
       } finally {
@@ -61,6 +54,45 @@ export default function ResultsPage() {
 
     generateItinerary();
   }, []);
+
+  const handleRefine = async () => {
+    if (!refineMessage.trim() || refining) return;
+
+    // Check if user can refine (paid tier only)
+    if (!canRefine()) {
+      setShowUpgrade(true);
+      return;
+    }
+
+    setRefining(true);
+    try {
+      const response = await fetch("/api/refine", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          itinerary,
+          message: refineMessage,
+          answers,
+          paid: isPaidUser(),
+        }),
+      });
+      if (response.status === 403) {
+        setShowUpgrade(true);
+      } else if (response.ok) {
+        const data = await response.json();
+        if (data.itinerary) {
+          setItinerary(data.itinerary);
+          setRefineMessage("");
+          setEmailSent(false);
+          recordRefinement();
+        }
+      }
+    } catch {
+      // fail silently
+    } finally {
+      setRefining(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -163,8 +195,7 @@ export default function ResultsPage() {
           </div>
           <h1 className="text-4xl font-bold mb-2 text-center">Your Custom Orlando Plan ✨</h1>
           <p className="opacity-90 text-center">
-            Built by Katie for{" "}
-            {answers?.email ? String(answers.email) : "your crew"}
+            Built by Katie just for your crew
           </p>
         </div>
       </div>
@@ -260,6 +291,153 @@ export default function ResultsPage() {
                 return <p key={i} className="text-gray-700 my-3">{trimmed}</p>;
               })}
             </div>
+          </div>
+        )}
+
+        {/* Refinement chat — gated for paid users */}
+        {showUpgrade ? (
+          <div className="mt-8 bg-white rounded-2xl shadow-lg overflow-hidden">
+            <div className="bg-gradient-to-r from-purple-500 to-indigo-600 px-6 py-4">
+              <h3 className="text-xl font-bold text-white">Unlock Unlimited Tweaks</h3>
+            </div>
+            <div className="p-6">
+              <div className="flex items-start gap-4">
+                <img src="/katie-avatar.png" alt="Katie" className="w-12 h-12 rounded-full flex-shrink-0" />
+                <div className="flex-1">
+                  <p className="text-gray-700 mb-4">
+                    Your free itinerary is ready to go! Want me to tweak it until it&apos;s perfect?
+                    Upgrade to Katie Pro and I&apos;ll adjust your plan as many times as you need.
+                  </p>
+                  <div className="bg-purple-50 rounded-xl p-5 mb-5">
+                    <div className="flex items-baseline gap-2 mb-3">
+                      <span className="text-3xl font-bold text-purple-700">$4.99</span>
+                      <span className="text-gray-500">per trip</span>
+                    </div>
+                    <ul className="space-y-2 text-sm text-gray-700">
+                      <li className="flex items-center gap-2">
+                        <span className="text-purple-500 font-bold">&#10003;</span>
+                        Unlimited plan adjustments — swap parks, add rest days, change the vibe
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="text-purple-500 font-bold">&#10003;</span>
+                        Date-specific crowd and event insights
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="text-purple-500 font-bold">&#10003;</span>
+                        Printable PDF with your full day-by-day schedule
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="text-purple-500 font-bold">&#10003;</span>
+                        Email delivery so you have it on your phone at the parks
+                      </li>
+                    </ul>
+                  </div>
+                  <button
+                    className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-xl transition-all text-lg shadow-md"
+                    onClick={() => {
+                      // TODO: Replace with Stripe checkout or payment flow
+                      alert("Payment integration coming soon! For now, enjoy your free itinerary.");
+                    }}
+                  >
+                    Upgrade to Katie Pro — $4.99
+                  </button>
+                  <p className="text-xs text-gray-400 text-center mt-3">
+                    One-time payment. No subscription. No recurring charges.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="mt-8 bg-white rounded-2xl shadow-lg p-6 border-l-4 border-purple-400">
+            <div className="flex items-start gap-4">
+              <img src="/katie-avatar.png" alt="Katie" className="w-12 h-12 rounded-full flex-shrink-0" />
+              <div className="flex-1">
+                <p className="text-gray-700 font-medium mb-1">Want me to change anything?</p>
+                {paid ? (
+                  <p className="text-gray-500 text-sm mb-4">
+                    Tell me what to tweak — swap a park day, add a rest day, adjust for picky eaters, whatever you need.
+                  </p>
+                ) : (
+                  <p className="text-gray-500 text-sm mb-4">
+                    Tell me what to tweak and I&apos;ll update your plan on the spot.
+                    <span className="text-purple-500 font-medium"> Pro feature</span> — upgrade to make unlimited changes.
+                  </p>
+                )}
+                <div className="flex gap-3">
+                  <input
+                    type="text"
+                    value={refineMessage}
+                    onChange={(e) => setRefineMessage(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && refineMessage.trim() && !refining) {
+                        e.preventDefault();
+                        handleRefine();
+                      }
+                    }}
+                    placeholder="e.g. &quot;Add a water park day&quot; or &quot;Make day 3 more relaxed&quot;"
+                    className="flex-1 p-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                  />
+                  <button
+                    onClick={handleRefine}
+                    disabled={!refineMessage.trim() || refining}
+                    className="bg-purple-500 hover:bg-purple-600 disabled:bg-gray-300 text-white font-bold px-6 py-3 rounded-xl transition-all whitespace-nowrap"
+                  >
+                    {refining ? "Updating..." : "Update Plan"}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Email capture — post-itinerary, optional */}
+        {!emailSent ? (
+          <div className="mt-8 bg-white rounded-2xl shadow-lg p-6 border-l-4 border-teal-400">
+            <div className="flex items-start gap-4">
+              <img src="/katie-avatar.png" alt="Katie" className="w-12 h-12 rounded-full flex-shrink-0" />
+              <div className="flex-1">
+                <p className="text-gray-700 font-medium mb-1">Want this sent to your inbox?</p>
+                <p className="text-gray-500 text-sm mb-4">
+                  I&apos;ll email you this itinerary so you have it handy when you&apos;re packing. No spam, just your plan.
+                </p>
+                <div className="flex gap-3">
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="your@email.com"
+                    className="flex-1 p-3 border-2 border-gray-200 rounded-xl focus:border-teal-500 focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                  />
+                  <button
+                    onClick={async () => {
+                      if (!email || !itinerary) return;
+                      setEmailSending(true);
+                      try {
+                        await fetch("/api/send-itinerary", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify({ email, itinerary }),
+                        });
+                        setEmailSent(true);
+                      } catch {
+                        // fail silently
+                      } finally {
+                        setEmailSending(false);
+                      }
+                    }}
+                    disabled={!email || emailSending}
+                    className="bg-teal-500 hover:bg-teal-600 disabled:bg-gray-300 text-white font-bold px-6 py-3 rounded-xl transition-all whitespace-nowrap"
+                  >
+                    {emailSending ? "Sending..." : "Send It!"}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="mt-8 bg-teal-50 rounded-2xl p-6 text-center">
+            <p className="text-teal-700 font-medium">Sent! Check your inbox for your itinerary from Katie.</p>
           </div>
         )}
 

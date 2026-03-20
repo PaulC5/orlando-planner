@@ -107,8 +107,16 @@ export async function POST(request: NextRequest) {
 }
 
 function buildUserPrompt(answers: Record<string, unknown>): string {
+  const today = new Date().toLocaleDateString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
   return `Please create a personalized Orlando vacation itinerary based on these details:
 
+**Today's Date:** ${today} (use this to give future-dated, seasonally accurate advice)
 **Trip Experience:** ${answers.experience || "Not specified"}
 **Trip Vibe:** ${answers.vibe || "Not specified"}
 **Duration:** ${answers.days || "Not specified"}

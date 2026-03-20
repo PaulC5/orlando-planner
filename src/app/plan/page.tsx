@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+
+const PROGRESS_KEY = "orlandoPlanProgress";
 
 // Question data - Katie's voice
 const questions = [
@@ -132,21 +134,46 @@ const questions = [
       "Prefer not to say",
     ],
   },
-  {
-    id: "email",
-    section: "Almost Done! 🎉",
-    question: "Cool! Where should I send your custom itinerary?",
-    type: "email",
-    options: [],
-  },
 ];
 
 export default function PlanPage() {
   const router = useRouter();
-  const [currentStep, setCurrentStep] = useState(0);
-  const [answers, setAnswers] = useState<Record<string, string | string[]>>({});
-  const [email, setEmail] = useState("");
+
+  // Lazy initializers — restore progress from localStorage on mount
+  const [currentStep, setCurrentStep] = useState(() => {
+    if (typeof window === "undefined") return 0;
+    try {
+      const saved = localStorage.getItem(PROGRESS_KEY);
+      if (saved) return JSON.parse(saved).currentStep ?? 0;
+    } catch {}
+    return 0;
+  });
+  const [answers, setAnswers] = useState<Record<string, string | string[]>>(() => {
+    if (typeof window === "undefined") return {};
+    try {
+      const saved = localStorage.getItem(PROGRESS_KEY);
+      if (saved) return JSON.parse(saved).answers ?? {};
+    } catch {}
+    return {};
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Persist progress to localStorage whenever answers or step change
+  useEffect(() => {
+    try {
+      localStorage.setItem(
+        PROGRESS_KEY,
+        JSON.stringify({ currentStep, answers })
+      );
+    } catch {}
+  }, [currentStep, answers]);
+
+  // Clear saved progress and reset form
+  const handleStartOver = useCallback(() => {
+    localStorage.removeItem(PROGRESS_KEY);
+    setCurrentStep(0);
+    setAnswers({});
+  }, []);
 
   const currentQuestion = questions[currentStep];
   const progress = ((currentStep + 1) / questions.length) * 100;
@@ -189,17 +216,20 @@ export default function PlanPage() {
   };
 
   const handleSubmit = async () => {
-    if (!email) return;
-    
     setIsSubmitting(true);
-    
-    // Store answers and email in localStorage for the results page
-    const submission = { ...answers, email };
+
+    // Store answers in localStorage for the results page (email no longer required)
+    const submission = { ...answers };
     localStorage.setItem("orlandoPlanAnswers", JSON.stringify(submission));
-    
+
+    // Clear in-progress form state so it doesn't restore stale data
+    localStorage.removeItem(PROGRESS_KEY);
+
     // Navigate to results page where we'll generate the itinerary
     router.push("/results");
   };
+
+  const isLastStep = currentStep === questions.length - 1;
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-orange-400 via-pink-500 to-purple-600 py-8">
@@ -345,34 +375,16 @@ export default function PlanPage() {
             </>
           )}
 
-          {/* Email input */}
-          {currentQuestion.type === "email" && (
-            <>
-              <label htmlFor="email-input" className="sr-only">
-                Email address
-              </label>
-              <input
-                id="email-input"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="your@email.com"
-                aria-required="true"
-                aria-describedby="email-description"
-                className="w-full p-4 text-lg border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              />
-              <p id="email-description" className="text-gray-500 text-sm mt-2">
-                I&apos;ll email it to you in about 2 minutes. No spam, no BS. Just your plan.
-              </p>
-              <button
-                onClick={handleSubmit}
-                disabled={!email || isSubmitting}
-                aria-busy={isSubmitting}
-                className="mt-6 w-full bg-yellow-400 hover:bg-yellow-500 focus:bg-yellow-500 focus:ring-4 focus:ring-yellow-600 disabled:bg-gray-300 text-gray-900 font-bold py-4 px-6 rounded-xl transition-all text-lg focus:outline-none"
-              >
-                {isSubmitting ? "Katie's building your plan..." : "Build My Plan, Katie! ✨"}
-              </button>
-            </>
+          {/* Submit button on last single-select step */}
+          {isLastStep && currentQuestion.type === "single" && answers[currentQuestion.id] && (
+            <button
+              onClick={handleSubmit}
+              disabled={isSubmitting}
+              aria-busy={isSubmitting}
+              className="mt-6 w-full bg-yellow-400 hover:bg-yellow-500 focus:bg-yellow-500 focus:ring-4 focus:ring-yellow-600 disabled:bg-gray-300 text-gray-900 font-bold py-4 px-6 rounded-xl transition-all text-lg focus:outline-none"
+            >
+              {isSubmitting ? "Katie's building your plan..." : "Build My Plan, Katie! ✨"}
+            </button>
           )}
           </div>
         </div>
@@ -400,6 +412,17 @@ export default function PlanPage() {
 
         {/* Minimal footer for question flow */}
         <div className="mt-12 text-center text-white/50 text-xs">
+          {currentStep > 0 && (
+            <>
+              <button
+                onClick={handleStartOver}
+                className="hover:text-white/80 transition-colors mx-2 underline"
+              >
+                Start Over
+              </button>
+              •
+            </>
+          )}
           <Link href="/privacy" className="hover:text-white/80 transition-colors mx-2">
             Privacy
           </Link>
