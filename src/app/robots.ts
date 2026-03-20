@@ -1,0 +1,14 @@
+import type { MetadataRoute } from "next";
+
+export default function robots(): MetadataRoute.Robots {
+  return {
+    rules: [
+      {
+        userAgent: "*",
+        allow: "/",
+        disallow: ["/api/", "/results"],
+      },
+    ],
+    sitemap: "https://www.orlandounpacked.com/sitemap.xml",
+  };
+}

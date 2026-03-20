@@ -1,4 +1,12 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Terms of Service",
+  description:
+    "Terms of service for using Orlando Unpacked, the free AI-powered Orlando vacation planner.",
+  alternates: { canonical: "/terms" },
+};
 
 export default function TermsPage() {
   return (
