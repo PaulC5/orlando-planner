@@ -23,13 +23,13 @@ export default function Home() {
 
           {/* Desktop Overlay Content */}
           <div className="absolute inset-0 flex items-center justify-end px-12">
-            <div className="max-w-xl text-white text-right bg-gradient-to-l from-black/50 to-transparent p-8 rounded-lg">
-              <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 drop-shadow-lg">
+            <div className="max-w-xl text-white text-right bg-gradient-to-l from-black/70 via-black/50 to-transparent p-8 rounded-lg">
+              <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold mb-4" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.7)' }}>
                 Your Orlando Trip,
                 <br />
                 <span className="text-yellow-300">Planned in 5 Minutes</span>
               </h1>
-              <p className="text-lg lg:text-xl mb-6 opacity-95 drop-shadow-md">
+              <p className="text-lg lg:text-xl mb-6" style={{ textShadow: '0 1px 6px rgba(0,0,0,0.8)' }}>
                 Answer a few quick questions about your crew, your budget, and your vibe.
                 Katie builds you a day-by-day itinerary with insider tips you won&apos;t find on Google.
               </p>
@@ -39,7 +39,7 @@ export default function Home() {
               >
                 Build My Free Itinerary
               </Link>
-              <p className="mt-3 text-sm opacity-90 drop-shadow">
+              <p className="mt-3 text-sm" style={{ textShadow: '0 1px 4px rgba(0,0,0,0.8)' }}>
                 No signup. No credit card. Just a plan that works.
               </p>
             </div>
