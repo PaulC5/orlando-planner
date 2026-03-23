@@ -129,38 +129,38 @@ export default function Home() {
             Not a vague list of &quot;top things to do.&quot; An actual plan built around your family, your dates, and your budget.
           </p>
           <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-white/10 backdrop-blur rounded-xl p-6 text-white flex gap-4">
+            <div className="bg-white/20 backdrop-blur-md rounded-xl p-6 text-white flex gap-4 border border-white/10">
               <div className="text-3xl flex-shrink-0" role="img" aria-label="Calendar">📅</div>
               <div>
                 <h3 className="text-lg font-bold mb-1">Day-by-Day Schedule</h3>
-                <p className="opacity-80 text-sm">
+                <p className="text-white/90 text-sm">
                   Morning, afternoon, and evening plans for every day of your trip. Not just &quot;go to Magic Kingdom&quot;&mdash;specific timing, ride order, and when to take breaks.
                 </p>
               </div>
             </div>
-            <div className="bg-white/10 backdrop-blur rounded-xl p-6 text-white flex gap-4">
+            <div className="bg-white/20 backdrop-blur-md rounded-xl p-6 text-white flex gap-4 border border-white/10">
               <div className="text-3xl flex-shrink-0" role="img" aria-label="Map pin">📍</div>
               <div>
                 <h3 className="text-lg font-bold mb-1">Which Parks on Which Days</h3>
-                <p className="opacity-80 text-sm">
+                <p className="text-white/90 text-sm">
                   Katie knows which days each park is least crowded. She&apos;ll sequence your parks so you dodge the worst lines.
                 </p>
               </div>
             </div>
-            <div className="bg-white/10 backdrop-blur rounded-xl p-6 text-white flex gap-4">
+            <div className="bg-white/20 backdrop-blur-md rounded-xl p-6 text-white flex gap-4 border border-white/10">
               <div className="text-3xl flex-shrink-0" role="img" aria-label="Fork and knife">🍽️</div>
               <div>
                 <h3 className="text-lg font-bold mb-1">Restaurant Picks by Budget</h3>
-                <p className="opacity-80 text-sm">
+                <p className="text-white/90 text-sm">
                   From quick-service spots the kids will love to character dining worth the splurge. Reservation timing included.
                 </p>
               </div>
             </div>
-            <div className="bg-white/10 backdrop-blur rounded-xl p-6 text-white flex gap-4">
+            <div className="bg-white/20 backdrop-blur-md rounded-xl p-6 text-white flex gap-4 border border-white/10">
               <div className="text-3xl flex-shrink-0" role="img" aria-label="Light bulb">💡</div>
               <div>
                 <h3 className="text-lg font-bold mb-1">Local Insider Tips</h3>
-                <p className="opacity-80 text-sm">
+                <p className="text-white/90 text-sm">
                   The stuff you only learn after living in Kissimmee for a decade&mdash;where to grocery shop, when to rope drop, and why mid-day breaks save trips.
                 </p>
               </div>
