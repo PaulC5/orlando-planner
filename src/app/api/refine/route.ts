@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { enforceRateLimit } from "@/lib/rate-limit";
 
 const SYSTEM_PROMPT = `You are Katie, an expert Orlando family vacation planner. The user has already received an itinerary from you. They're now asking you to adjust or refine it.
 
@@ -10,6 +11,14 @@ Rules:
 - If the request is unclear, make your best judgment and note what you assumed.`;
 
 export async function POST(request: NextRequest) {
+  // Rate limit: 10 refinements per IP per hour
+  const rateLimited = await enforceRateLimit(request, {
+    limit: 10,
+    windowSeconds: 3600,
+    prefix: "refine",
+  });
+  if (rateLimited) return rateLimited;
+
   try {
     const { itinerary, message, answers, paid } = await request.json();
 

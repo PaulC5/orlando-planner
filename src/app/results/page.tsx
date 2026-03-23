@@ -16,6 +16,9 @@ export default function ResultsPage() {
   const [refining, setRefining] = useState(false);
   const [showUpgrade, setShowUpgrade] = useState(false);
   const [paid, setPaid] = useState(false);
+  const [shareUrl, setShareUrl] = useState<string | null>(null);
+  const [sharing, setSharing] = useState(false);
+  const [shareCopied, setShareCopied] = useState(false);
 
   useEffect(() => {
     const generateItinerary = async () => {
@@ -91,6 +94,45 @@ export default function ResultsPage() {
       // fail silently
     } finally {
       setRefining(false);
+    }
+  };
+
+  const handleShare = async () => {
+    if (sharing || shareUrl) return;
+    setSharing(true);
+    try {
+      const response = await fetch("/api/share", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ itinerary, answers }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setShareUrl(data.url);
+      }
+    } catch {
+      // fail silently
+    } finally {
+      setSharing(false);
+    }
+  };
+
+  const copyShareLink = async () => {
+    if (!shareUrl) return;
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setShareCopied(true);
+      setTimeout(() => setShareCopied(false), 2500);
+    } catch {
+      // Fallback for older browsers
+      const input = document.createElement("input");
+      input.value = shareUrl;
+      document.body.appendChild(input);
+      input.select();
+      document.execCommand("copy");
+      document.body.removeChild(input);
+      setShareCopied(true);
+      setTimeout(() => setShareCopied(false), 2500);
     }
   };
 
@@ -443,11 +485,18 @@ export default function ResultsPage() {
 
         {/* Actions */}
         <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-          <button 
+          <button
             onClick={() => window.print()}
             className="flex items-center justify-center gap-2 bg-white border-2 border-gray-300 px-6 py-3 rounded-full hover:bg-gray-50 font-medium transition-all shadow-md"
           >
             🖨️ Save as PDF
+          </button>
+          <button
+            onClick={handleShare}
+            disabled={sharing}
+            className="flex items-center justify-center gap-2 bg-pink-500 hover:bg-pink-600 disabled:bg-gray-300 text-white px-6 py-3 rounded-full font-medium transition-all shadow-md"
+          >
+            {sharing ? "Creating Link..." : "🔗 Share My Trip"}
           </button>
           <Link
             href="/plan"
@@ -456,6 +505,68 @@ export default function ResultsPage() {
             🔄 Create Another Plan
           </Link>
         </div>
+
+        {/* Share panel */}
+        {shareUrl && (
+          <div className="mt-4 bg-white rounded-2xl shadow-lg p-6 border-l-4 border-pink-400">
+            <div className="flex items-start gap-4">
+              <img src="/katie-avatar.png" alt="Katie" className="w-12 h-12 rounded-full flex-shrink-0" />
+              <div className="flex-1">
+                <p className="text-gray-700 font-medium mb-1">Your share link is ready!</p>
+                <p className="text-gray-500 text-sm mb-4">
+                  Friends will see a Day 1 preview and can plan their own trip. The link works for 90 days.
+                </p>
+                <div className="flex gap-3">
+                  <input
+                    type="text"
+                    readOnly
+                    value={shareUrl}
+                    className="flex-1 p-3 border-2 border-gray-200 rounded-xl bg-gray-50 text-gray-700 text-sm focus:outline-none"
+                    onClick={(e) => (e.target as HTMLInputElement).select()}
+                    aria-label="Share link URL"
+                  />
+                  <button
+                    onClick={copyShareLink}
+                    className={`font-bold px-6 py-3 rounded-xl transition-all whitespace-nowrap ${
+                      shareCopied
+                        ? "bg-green-500 text-white"
+                        : "bg-pink-500 hover:bg-pink-600 text-white"
+                    }`}
+                  >
+                    {shareCopied ? "Copied!" : "Copy"}
+                  </button>
+                </div>
+                {/* Social share shortcuts */}
+                <div className="flex gap-3 mt-4">
+                  <a
+                    href={`https://wa.me/?text=${encodeURIComponent("Check out my Orlando trip plan! " + shareUrl)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all"
+                  >
+                    WhatsApp
+                  </a>
+                  <a
+                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("Check out the Orlando trip plan Katie built for me! 🌴🎢")}&url=${encodeURIComponent(shareUrl)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all"
+                  >
+                    X / Twitter
+                  </a>
+                  <a
+                    href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all"
+                  >
+                    Facebook
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Footer CTA */}
         <div className="mt-12 bg-gradient-to-r from-orange-400 via-pink-500 to-purple-600 rounded-2xl p-8 text-white text-center">

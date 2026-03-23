@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { enforceRateLimit } from "@/lib/rate-limit";
 
 const SYSTEM_PROMPT = `You are an expert Orlando family vacation planner with 10+ years of local experience. You own vacation rentals in Kissimmee and have helped hundreds of families plan their perfect Orlando trips.
 
@@ -50,6 +51,14 @@ Be specific, actionable, and encouraging. Use emojis sparingly for visual breaks
 - If key information is missing (like dates, group size, or parks), make reasonable assumptions and note them rather than asking questions.`;
 
 export async function POST(request: NextRequest) {
+  // Rate limit: 5 itinerary generations per IP per hour
+  const rateLimited = await enforceRateLimit(request, {
+    limit: 5,
+    windowSeconds: 3600,
+    prefix: "generate",
+  });
+  if (rateLimited) return rateLimited;
+
   try {
     const answers = await request.json();
 

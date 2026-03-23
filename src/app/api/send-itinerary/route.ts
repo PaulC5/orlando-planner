@@ -1,7 +1,16 @@
 import { Resend } from "resend";
 import { NextRequest, NextResponse } from "next/server";
+import { enforceRateLimit } from "@/lib/rate-limit";
 
 export async function POST(request: NextRequest) {
+  // Rate limit: 3 emails per IP per hour
+  const rateLimited = await enforceRateLimit(request, {
+    limit: 3,
+    windowSeconds: 3600,
+    prefix: "email",
+  });
+  if (rateLimited) return rateLimited;
+
   try {
     const { email, itinerary } = await request.json();
 
