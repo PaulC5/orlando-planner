@@ -129,7 +129,7 @@ export default function Home() {
             Not a vague list of &quot;top things to do.&quot; An actual plan built around your family, your dates, and your budget.
           </p>
           <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-white/20 backdrop-blur-md rounded-xl p-6 text-white flex gap-4 border border-white/10">
+            <div className="bg-gray-900/80 backdrop-blur-md rounded-xl p-6 text-white flex gap-4 border border-white/10">
               <div className="text-3xl flex-shrink-0" role="img" aria-label="Calendar">📅</div>
               <div>
                 <h3 className="text-lg font-bold mb-1">Day-by-Day Schedule</h3>
@@ -138,7 +138,7 @@ export default function Home() {
                 </p>
               </div>
             </div>
-            <div className="bg-white/20 backdrop-blur-md rounded-xl p-6 text-white flex gap-4 border border-white/10">
+            <div className="bg-gray-900/80 backdrop-blur-md rounded-xl p-6 text-white flex gap-4 border border-white/10">
               <div className="text-3xl flex-shrink-0" role="img" aria-label="Map pin">📍</div>
               <div>
                 <h3 className="text-lg font-bold mb-1">Which Parks on Which Days</h3>
@@ -147,7 +147,7 @@ export default function Home() {
                 </p>
               </div>
             </div>
-            <div className="bg-white/20 backdrop-blur-md rounded-xl p-6 text-white flex gap-4 border border-white/10">
+            <div className="bg-gray-900/80 backdrop-blur-md rounded-xl p-6 text-white flex gap-4 border border-white/10">
               <div className="text-3xl flex-shrink-0" role="img" aria-label="Fork and knife">🍽️</div>
               <div>
                 <h3 className="text-lg font-bold mb-1">Restaurant Picks by Budget</h3>
@@ -156,7 +156,7 @@ export default function Home() {
                 </p>
               </div>
             </div>
-            <div className="bg-white/20 backdrop-blur-md rounded-xl p-6 text-white flex gap-4 border border-white/10">
+            <div className="bg-gray-900/80 backdrop-blur-md rounded-xl p-6 text-white flex gap-4 border border-white/10">
               <div className="text-3xl flex-shrink-0" role="img" aria-label="Light bulb">💡</div>
               <div>
                 <h3 className="text-lg font-bold mb-1">Local Insider Tips</h3>
@@ -195,7 +195,7 @@ export default function Home() {
 
         {/* Footer */}
         <footer className="text-center mt-20 max-w-3xl mx-auto">
-          <div className="bg-white/10 backdrop-blur rounded-xl p-6 text-white/80 text-sm mb-6">
+          <div className="bg-gray-900/60 backdrop-blur rounded-xl p-6 text-white/80 text-sm mb-6">
             <p className="mb-2">
               <strong>A quick note:</strong> Katie is powered by AI. She&apos;s trained on real Orlando data and she&apos;s pretty great,
               but park hours, prices, and ride closures change all the time. Always double-check the important stuff before you book.
