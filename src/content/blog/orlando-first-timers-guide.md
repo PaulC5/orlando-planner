@@ -5,7 +5,6 @@ date: "2026-03-22"
 author: "Katie"
 slug: "orlando-first-timers-guide"
 tags: ["first-time visitors", "theme parks", "planning", "checklist", "Orlando"]
-featuredImage: "/images/first-timers-guide.jpg"
 metaTitle: "First-Timer's Orlando Checklist: 8 Steps to Plan Your Trip | Orlando Unpacked"
 metaDescription: "Planning your first Orlando vacation? Here's the 8-step checklist that covers parks, timing, budget, and the mistakes most first-timers make."
 ---

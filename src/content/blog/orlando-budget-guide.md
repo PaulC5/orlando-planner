@@ -5,7 +5,6 @@ date: "2026-03-18"
 author: "Katie"
 slug: "orlando-budget-guide"
 tags: ["budget", "save money", "Orlando vacation", "families", "tips"]
-featuredImage: "/images/budget-guide.jpg"
 metaTitle: "7 Ways to Save $1,000+ on Your Orlando Vacation | Orlando Unpacked"
 metaDescription: "Seven real strategies families use to save $1,000+ on Orlando vacations. Covers lodging, park tickets, dining, Kissimmee local tips, and free alternatives."
 ---

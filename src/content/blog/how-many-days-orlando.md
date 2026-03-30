@@ -5,7 +5,6 @@ date: "2026-03-24"
 author: "Katie"
 slug: "how-many-days-orlando"
 tags: ["Orlando vacation", "trip planning", "families", "Disney World", "Universal Orlando"]
-featuredImage: "/images/how-many-days-orlando.jpg"
 metaTitle: "How Many Days Do You Need in Orlando? (2026 Family Guide) | Orlando Unpacked"
 metaDescription: "How long should your Orlando vacation be? Depends on your parks, your kids, and your pace. Here's how to think about it — and how to get a personalized plan."
 ---

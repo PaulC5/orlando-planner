@@ -5,7 +5,6 @@ date: "2026-03-20"
 author: "Katie"
 slug: "plan-disney-world-trip"
 tags: ["Disney World", "planning tips", "strategy", "families", "checklist"]
-featuredImage: "/images/disney-planning.jpg"
 metaTitle: "Plan Your Disney World Trip in 9 Steps | Orlando Unpacked"
 metaDescription: "The 9-step Disney World planning checklist: booking timeline, Lightning Lane, must-do rides, dining strategy, pacing by park, and age-specific real talk."
 ---

@@ -5,7 +5,6 @@ date: "2026-03-24"
 author: "Katie"
 slug: "universal-vs-disney"
 tags: ["Universal Orlando", "Disney World", "park comparison", "family vacation", "Epic Universe"]
-featuredImage: "/images/universal-vs-disney.jpg"
 metaTitle: "Universal Orlando vs Disney World 2026: Which Is Best for Your Family? | Orlando Unpacked"
 metaDescription: "Honest 2026 comparison of Universal Orlando vs Disney World. Covers ticket prices, ride quality, age fit, Epic Universe, and how to decide which parks your family should visit."
 ---

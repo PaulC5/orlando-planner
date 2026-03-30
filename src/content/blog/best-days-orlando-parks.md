@@ -5,7 +5,6 @@ date: "2026-03-25"
 author: "Katie"
 slug: "best-days-orlando-parks"
 tags: ["crowd tips", "Disney World", "Universal Orlando", "park planning", "insider tips"]
-featuredImage: "/images/best-days-orlando-parks.jpg"
 metaTitle: "Best & Worst Days to Visit Each Orlando Park in 2026 | Orlando Unpacked"
 metaDescription: "Which day of the week is actually least crowded at Magic Kingdom? EPCOT? Hollywood Studios? Real 2026 crowd data with a few counterintuitive results you won't find in generic guides."
 ---

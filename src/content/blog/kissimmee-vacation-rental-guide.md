@@ -5,7 +5,6 @@ date: "2026-03-25"
 author: "Katie"
 slug: "kissimmee-vacation-rental-guide"
 tags: ["Kissimmee", "vacation rental", "where to stay", "Airbnb", "Orlando tips"]
-featuredImage: "/images/kissimmee-vacation-rental.jpg"
 metaTitle: "Kissimmee Vacation Rental Guide 2026: What Hosts Know That Guests Don't | Orlando Unpacked"
 metaDescription: "10+ years of Orlando vacation rental hosting distilled into one guide. Neighborhoods, hidden fees, pool heating traps, and how to pick a Kissimmee rental that actually fits your family."
 ---
