@@ -15,9 +15,10 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const post = getBlogPost(params.slug);
+  const { slug } = await params;
+  const post = getBlogPost(slug);
 
   if (!post) {
     return {
@@ -77,8 +78,9 @@ function calculateReadingTime(content: string): number {
   return Math.ceil(wordCount / wordsPerMinute);
 }
 
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
-  const post = getBlogPost(params.slug);
+export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const post = getBlogPost(slug);
 
   if (!post) {
     return (
@@ -88,7 +90,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
             Post not found
           </h1>
           <p className="text-gray-600 mb-8">
-            The blog post you're looking for doesn't exist.
+            The blog post you&apos;re looking for doesn&apos;t exist.
           </p>
           <Link
             href="/blog"
@@ -135,8 +137,8 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       {/* Header/Nav */}
-      <header className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
-        <nav className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+      <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-sm border-b border-gray-100 shadow-sm">
+        <nav className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
           <Link
             href="/"
             className="text-xl font-bold bg-gradient-to-r from-orange-400 via-pink-500 to-purple-600 bg-clip-text text-transparent hover:opacity-80"
@@ -160,37 +162,38 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
         </nav>
       </header>
 
+      {/* Hero image band */}
+      {post.featuredImage && (
+        <div className="relative w-full h-72 sm:h-96 bg-gradient-to-br from-orange-400 via-pink-500 to-purple-600 overflow-hidden">
+          <img
+            src={post.featuredImage}
+            alt={post.title}
+            className="w-full h-full object-cover mix-blend-multiply opacity-90"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+        </div>
+      )}
+
       {/* Main content */}
-      <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         {/* Back link */}
         <Link
           href="/blog"
-          className="inline-flex items-center text-orange-500 font-semibold mb-8 hover:text-orange-600 transition-colors"
+          className="inline-flex items-center gap-1 text-sm text-gray-500 font-medium mb-8 hover:text-orange-500 transition-colors"
         >
-          ← Back to Blog
+          ← All articles
         </Link>
-
-        {/* Featured image */}
-        {post.featuredImage && (
-          <div className="relative w-full h-96 bg-gradient-to-r from-orange-400 via-pink-500 to-purple-600 rounded-lg overflow-hidden mb-8">
-            <img
-              src={post.featuredImage}
-              alt={post.title}
-              className="w-full h-full object-cover"
-            />
-          </div>
-        )}
 
         {/* Article header */}
         <article>
-          <header className="mb-8">
+          <header className="mb-10">
             {/* Tags */}
             {post.tags && post.tags.length > 0 && (
-              <div className="flex flex-wrap gap-2 mb-4">
+              <div className="flex flex-wrap gap-2 mb-5">
                 {post.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="inline-block px-3 py-1 text-sm font-semibold text-orange-600 bg-orange-50 rounded"
+                    className="inline-block px-3 py-1 text-xs font-bold text-orange-600 bg-orange-100 rounded-full uppercase tracking-wide"
                   >
                     {tag}
                   </span>
@@ -199,15 +202,15 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
             )}
 
             {/* Title */}
-            <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6">
+            <h1 className="text-3xl sm:text-5xl font-bold text-gray-900 mb-6 leading-tight">
               {post.title}
             </h1>
 
             {/* Meta info */}
-            <div className="flex flex-col sm:flex-row sm:items-center gap-4 text-gray-600 border-t border-b border-gray-200 py-4">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-4 text-gray-500 bg-gray-50 rounded-xl px-5 py-4">
               {/* Author */}
               <div className="flex items-center gap-3">
-                <div className="relative w-10 h-10 rounded-full bg-gradient-to-r from-orange-400 via-pink-500 to-purple-600 overflow-hidden">
+                <div className="relative w-9 h-9 rounded-full bg-gradient-to-r from-orange-400 via-pink-500 to-purple-600 overflow-hidden flex-shrink-0">
                   <img
                     src="/katie-avatar.png"
                     alt={post.author}
@@ -215,13 +218,15 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                   />
                 </div>
                 <div>
-                  <p className="font-semibold text-gray-900">{post.author}</p>
-                  <p className="text-sm">Orlando Unpacked</p>
+                  <p className="font-semibold text-gray-800 text-sm leading-none mb-0.5">{post.author}</p>
+                  <p className="text-xs text-gray-400">Orlando Unpacked</p>
                 </div>
               </div>
 
+              <div className="hidden sm:block w-px h-8 bg-gray-200" />
+
               {/* Date and reading time */}
-              <div className="flex items-center gap-4 text-sm">
+              <div className="flex items-center gap-3 text-sm">
                 <time dateTime={post.date}>
                   {new Date(post.date).toLocaleDateString("en-US", {
                     year: "numeric",
@@ -229,14 +234,14 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                     day: "numeric",
                   })}
                 </time>
-                <span>•</span>
+                <span className="text-gray-300">•</span>
                 <span>{readingTime} min read</span>
               </div>
             </div>
           </header>
 
           {/* Article content */}
-          <div className="prose prose-lg max-w-none mb-12">
+          <div className="prose prose-lg max-w-none mb-12 prose-headings:text-gray-900 prose-a:text-orange-500 prose-a:no-underline hover:prose-a:underline">
             <div
               dangerouslySetInnerHTML={{ __html: htmlContent as string }}
               className="text-gray-700 leading-relaxed"
@@ -264,26 +269,20 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           </div>
         </section>
 
-        {/* Related posts or next steps */}
-        <section className="border-t border-gray-200 pt-12">
-          <h3 className="text-2xl font-bold text-gray-900 mb-6">
-            More Orlando Tips
-          </h3>
-          <p className="text-gray-600 mb-6">
-            Check out our other guides for more strategies to plan your perfect Orlando vacation.
-          </p>
+        {/* Back to blog */}
+        <section className="border-t border-gray-100 pt-10">
           <Link
             href="/blog"
-            className="inline-flex items-center text-orange-500 font-semibold hover:text-orange-600 transition-colors"
+            className="inline-flex items-center gap-2 text-orange-500 font-semibold hover:text-orange-600 transition-colors"
           >
-            Explore all blog posts →
+            ← Explore all guides
           </Link>
         </section>
       </main>
 
       {/* Footer */}
-      <footer className="mt-20 bg-gray-50 border-t border-gray-200">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center text-gray-600">
+      <footer className="mt-16 bg-gray-50 border-t border-gray-100">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 text-center text-gray-500 text-sm">
           <p>
             Built by Katie, your AI-powered Orlando vacation planner.{" "}
             <Link href="/privacy" className="text-orange-500 hover:text-orange-600">
